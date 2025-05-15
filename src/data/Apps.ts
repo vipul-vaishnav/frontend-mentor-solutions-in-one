@@ -12,6 +12,13 @@ const APPS = [
     description:
       'Effortlessly manage extensions ✨ — toggle active 🔛/inactive 🔴, filter by status 🔍, remove extras 🗑️, and customize themes 🎨. Enjoy a responsive layout 📱💻 with smooth hover/focus effects 🖱️.',
     url: '/apps/browser-extension-manager'
+  },
+  {
+    image_url: '/thumbnails/frontend-quiz-app-thumbnail.webp',
+    title: 'Frontend Quiz App',
+    description:
+      'Sharpen your frontend skills 🧠 — pick a topic 🎯, answer questions ✅❌, get instant feedback ⚡, and track your score 📊. Fully responsive 📱💻 with smooth transitions 🎞️ and accessible controls ♿.',
+    url: '/apps/frontend-quiz-app'
   }
 ]
 

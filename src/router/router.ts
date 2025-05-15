@@ -7,7 +7,11 @@ import Contact from '../pages/Contact'
 import NotFound from '../pages/NotFound'
 
 import JobListingApp from '../pages/Apps/JobListingApp'
+
 import BrowserExtensionManager from '../pages/Apps/BrowserExtensionManager'
+
+import QuizHome from '../pages/Apps/frontend-quiz-app/QuizHome'
+import QuizQuestions from '../pages/Apps/frontend-quiz-app/QuizQuestions'
 
 const router = createBrowserRouter([
   {
@@ -23,8 +27,26 @@ const router = createBrowserRouter([
       { path: '*', Component: NotFound }
     ]
   },
-  { path: '/apps/job-listing-app', Component: JobListingApp },
-  { path: '/apps/browser-extension-manager', Component: BrowserExtensionManager }
+  {
+    path: '/apps/job-listing-app',
+    Component: JobListingApp
+  },
+  {
+    path: '/apps/browser-extension-manager',
+    Component: BrowserExtensionManager
+  },
+  {
+    path: '/apps/frontend-quiz-app',
+    Component: QuizHome
+  },
+  {
+    path: '/apps/frontend-quiz-app/:type',
+    Component: QuizQuestions
+  },
+  {
+    path: '/apps/frontend-quiz-app/*',
+    Component: NotFound
+  }
 ])
 
 export default router
