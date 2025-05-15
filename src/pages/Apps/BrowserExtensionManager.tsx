@@ -106,7 +106,7 @@ const BrowserExtensionManager: React.FC = () => {
                 >
                   <div className="flex items-start gap-3 min-h-32">
                     <div className="w-24">
-                      <img src={'/public/browser-extension-manager' + ext.logo.slice(1)} alt={ext.name} />
+                      <img src={'/browser-extension-manager' + ext.logo.slice(1)} alt={ext.name} />
                     </div>
                     <div>
                       <h6 className="font-bold dark:text-[#fbfdfe] text-[#09153e]">{ext.name}</h6>
