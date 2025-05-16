@@ -42,10 +42,6 @@ const router = createBrowserRouter([
   {
     path: '/apps/frontend-quiz-app/:type',
     Component: QuizQuestions
-  },
-  {
-    path: '/apps/frontend-quiz-app/*',
-    Component: NotFound
   }
 ])
 
