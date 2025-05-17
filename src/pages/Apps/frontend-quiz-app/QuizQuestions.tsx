@@ -1,5 +1,5 @@
 import React, { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { QUIZDATA } from '../../../data/frontend-quiz-app/data'
@@ -16,6 +16,7 @@ const BG_COLORS = {
 }
 
 const QuizQuestions: React.FC = () => {
+  const navigate = useNavigate()
   const { type } = useParams<{ type: (typeof QUIZDATA)[number]['title'] }>()
   const {
     setTotalNumberOfQuestions,
@@ -84,19 +85,67 @@ const QuizQuestions: React.FC = () => {
       <Header quizTitle={type} />
 
       {results ? (
-        <>
-          Results score: {score}/{totalNumberOfQuestions}{' '}
-        </>
-      ) : selectedQuiz ? (
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 max-w-7xl mx-auto py-6 lg:py-12">
           <div>
-            <p className="dark:text-[#626C7F] mb-6 text-[#313e51] text-base leading-[120%] sm:text-xl transition-all duration-300 italic">
-              Question {currentQuestionIndex + 1} out of {totalNumberOfQuestions}
-            </p>
-            <h6 className="dark:text-[#f4f6fa] text-[#313E51] text-2xl transition-all sm:text-3xl md:text-4xl font-semibold duration-300">
-              {selectedQuiz.questions[currentQuestionIndex].question}
+            <h6 className="dark:text-[#f4f6fa] text-[#313E51] text-4xl xs:text-5xl leading-[110%] sm:text-7xl transition-all duration-300">
+              Quiz Completed
+              <br />
+              <span className="font-bold">You Scored...</span>
             </h6>
-            <div>Progress</div>
+          </div>
+          <div className="space-y-6">
+            <div
+              style={{
+                boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px'
+              }}
+              className="bg-[#fff] dark:bg-[#3B4D66] rounded-3xl p-6 flex flex-col items-center gap-6"
+            >
+              <p
+                className={`text-[8.8rem] md:text-[14.4rem] font-medium leading-[100%] transition-all duration-300 dark:text-white' text-[#313E51]`}
+              >
+                {score}
+              </p>
+              <p
+                className={`text-[1.8rem] md:text-[2.4rem] leading-[150%] transition-all duration-300 dark:text-[#626C7F] text-[#313E51]`}
+              >
+                out of {totalNumberOfQuestions}
+              </p>
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  navigate('/apps/frontend-quiz-app')
+                }}
+                className="text-white bg-[#a729fe] border-3 border-[#a729fe] transition-all duration-300 hover:opacity-75 rounded-3xl p-6 font-bold text-xl sm:text-2xl md:text-3xl w-full hover:scale-[0.95] active:scale-100"
+              >
+                Play Again
+              </button>
+            </div>
+          </div>
+        </section>
+      ) : selectedQuiz ? (
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 max-w-7xl mx-auto py-6 lg:py-12">
+          <div className="flex flex-col justify-between items-start gap-5 lg:pb-10">
+            <div>
+              <p className="dark:text-[#626C7F] mb-6 text-[#313e51] text-base leading-[120%] sm:text-xl transition-all duration-300 italic">
+                Question {currentQuestionIndex + 1} out of {totalNumberOfQuestions}
+              </p>
+              <h6 className="dark:text-[#f4f6fa] text-[#313E51] text-2xl transition-all sm:text-3xl md:text-4xl font-semibold duration-300">
+                {selectedQuiz.questions[currentQuestionIndex].question}
+              </h6>
+            </div>
+            <div className="bg-[#fff] dark:bg-[#3B4D66] w-full h-3 rounded-full overflow-hidden shadow-2xl">
+              <motion.div
+                className="h-full bg-[#a729fe]"
+                initial={{ width: 0 }}
+                animate={{
+                  width: `${
+                    ((currentQuestionIndex + (isCurrentQuestionAnswerSubmitted ? 1 : 0)) / totalNumberOfQuestions) * 100
+                  }%`
+                }}
+                transition={{ type: 'spring', duration: 0.3, stiffness: 300, damping: 20 }}
+              />
+            </div>
           </div>
           <form onSubmit={handleQuestionSubmit}>
             <ul className="space-y-6 lg:pl-8 lg:pt-5">
