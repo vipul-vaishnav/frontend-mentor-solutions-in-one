@@ -15,10 +15,14 @@ const BG_COLORS = {
 
 const Header: React.FC<HeaderProps> = (props) => {
   const { quizTitle } = props
+
+  const isValidQuizTitle =
+    quizTitle === 'Accessibility' || quizTitle === 'CSS' || quizTitle === 'HTML' || quizTitle === 'JavaScript'
+
   return (
-    <header className="flex items-center max-w-6xl mx-auto justify-between py-10">
-      <h1 className="flex items-center gap-3">
-        {quizTitle ? (
+    <header className="flex items-center max-w-7xl mx-auto justify-between py-10">
+      <h1 className="flex items-center gap-5">
+        {quizTitle && isValidQuizTitle ? (
           <React.Fragment>
             <span
               style={{ backgroundColor: BG_COLORS[quizTitle] }}
