@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router'
 
 import type { QUIZDATA } from '../../../data/frontend-quiz-app/data'
 import Header from '../../../components/QuizApp/Header'
+import { useQuizStore } from '../../../stores/QuizAppStore'
 
 const QUIZZES: Array<(typeof QUIZDATA)[number]['title']> = ['HTML', 'CSS', 'JavaScript', 'Accessibility']
 
@@ -14,6 +15,12 @@ const BG_COLORS = {
 }
 
 const QuizHome: React.FC = () => {
+  const resetQuiz = useQuizStore((s) => s.resetQuiz)
+
+  useEffect(() => {
+    resetQuiz()
+  }, [resetQuiz])
+
   return (
     <main className="min-h-screen max-w-screen w-full bg-[#f4f6faed] dark:bg-[#313E51] p-6 bg-[url('/frontend-quiz-app/pattern-background-mobile-light.svg')] dark:bg-[url('/frontend-quiz-app/pattern-background-mobile-dark.svg')] sm:bg-[url('/frontend-quiz-app/pattern-background-tablet-light.svg')] sm:dark:bg-[url('/frontend-quiz-app/pattern-background-tablet-dark.svg')] lg:bg-[url('/frontend-quiz-app/pattern-background-desktop-light.svg')] lg:dark:bg-[url('/frontend-quiz-app/pattern-background-desktop-dark.svg')] lg:bg-cover sm:bg-top-left lg:bg-center bg-no-repeat transition-all duration-300">
       <Header />
