@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { QUIZDATA } from '../../../data/frontend-quiz-app/data'
 import Header from '../../../components/QuizApp/Header'
 import { useQuizStore } from '../../../stores/QuizAppStore'
+import Celebration from '../../../components/QuizApp/Celebration'
 
 const QUIZZES: Array<(typeof QUIZDATA)[number]['title']> = ['HTML', 'CSS', 'JavaScript', 'Accessibility']
 
@@ -37,7 +38,6 @@ const QuizQuestions: React.FC = () => {
     score,
     resetQuiz
   } = useQuizStore((s) => {
-    // console.log(s)
     return s
   })
   const [results, setResults] = useState(false)
@@ -80,49 +80,56 @@ const QuizQuestions: React.FC = () => {
     }
   }, [error])
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [currentQuestionIndex])
+
   return (
     <main className="min-h-screen max-w-screen w-full bg-[#f4f6faed] dark:bg-[#313E51] p-6 bg-[url('/frontend-quiz-app/pattern-background-mobile-light.svg')] dark:bg-[url('/frontend-quiz-app/pattern-background-mobile-dark.svg')] sm:bg-[url('/frontend-quiz-app/pattern-background-tablet-light.svg')] sm:dark:bg-[url('/frontend-quiz-app/pattern-background-tablet-dark.svg')] lg:bg-[url('/frontend-quiz-app/pattern-background-desktop-light.svg')] lg:dark:bg-[url('/frontend-quiz-app/pattern-background-desktop-dark.svg')] lg:bg-cover sm:bg-top-left lg:bg-center bg-no-repeat transition-all duration-300">
       <Header quizTitle={type} />
 
       {results ? (
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 max-w-7xl mx-auto py-6 lg:py-12">
-          <div>
-            <h6 className="dark:text-[#f4f6fa] text-[#313E51] text-4xl xs:text-5xl leading-[110%] sm:text-7xl transition-all duration-300">
-              Quiz Completed
-              <br />
-              <span className="font-bold">You Scored...</span>
-            </h6>
-          </div>
-          <div className="space-y-6">
-            <div
-              style={{
-                boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px'
-              }}
-              className="bg-[#fff] dark:bg-[#3B4D66] rounded-3xl p-6 flex flex-col items-center gap-6"
-            >
-              <p
-                className={`text-[8.8rem] md:text-[14.4rem] font-medium leading-[100%] transition-all duration-300 dark:text-white' text-[#313E51]`}
-              >
-                {score}
-              </p>
-              <p
-                className={`text-[1.8rem] md:text-[2.4rem] leading-[150%] transition-all duration-300 dark:text-[#626C7F] text-[#313E51]`}
-              >
-                out of {totalNumberOfQuestions}
-              </p>
-            </div>
+        <React.Fragment>
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 max-w-7xl mx-auto py-6 lg:py-12">
             <div>
-              <button
-                onClick={() => {
-                  navigate('/apps/frontend-quiz-app')
-                }}
-                className="text-white bg-[#a729fe] border-3 border-[#a729fe] transition-all duration-300 hover:opacity-75 rounded-3xl p-6 font-bold text-xl sm:text-2xl md:text-3xl w-full hover:scale-[0.95] active:scale-100"
-              >
-                Play Again
-              </button>
+              <h6 className="dark:text-[#f4f6fa] text-[#313E51] text-4xl xs:text-5xl leading-[110%] sm:text-7xl transition-all duration-300">
+                Quiz Completed
+                <br />
+                <span className="font-bold">You Scored...</span>
+              </h6>
             </div>
-          </div>
-        </section>
+            <div className="space-y-6">
+              <div
+                style={{
+                  boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px'
+                }}
+                className="bg-[#fff] dark:bg-[#3B4D66] rounded-3xl p-6 flex flex-col items-center gap-6"
+              >
+                <p
+                  className={`text-[8.8rem] md:text-[14.4rem] font-medium leading-[100%] transition-all duration-300 dark:text-white' text-[#313E51]`}
+                >
+                  {score}
+                </p>
+                <p
+                  className={`text-[1.8rem] md:text-[2.4rem] leading-[150%] transition-all duration-300 dark:text-[#626C7F] text-[#313E51]`}
+                >
+                  out of {totalNumberOfQuestions}
+                </p>
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    navigate('/apps/frontend-quiz-app')
+                  }}
+                  className="text-white bg-[#a729fe] border-3 border-[#a729fe] transition-all duration-300 hover:opacity-75 rounded-3xl p-6 font-bold text-xl sm:text-2xl md:text-3xl w-full hover:scale-[0.95] active:scale-100"
+                >
+                  Play Again
+                </button>
+              </div>
+            </div>
+          </section>
+          {score === totalNumberOfQuestions && <Celebration />}
+        </React.Fragment>
       ) : selectedQuiz ? (
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 max-w-7xl mx-auto py-6 lg:py-12">
           <div className="flex flex-col justify-between items-start gap-5 lg:pb-10">
