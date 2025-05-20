@@ -19,6 +19,13 @@ const APPS = [
     description:
       'Sharpen your frontend skills 🧠 — pick a topic 🎯, answer questions ✅❌, get instant feedback ⚡, and track your score 📊. Fully responsive 📱💻 with smooth transitions 🎞️ and accessible controls ♿.',
     url: '/apps/frontend-quiz-app'
+  },
+  {
+    image_url: '/thumbnails/multi-step-form.jpg',
+    title: 'Multi Step Form',
+    description:
+      'Guide users through a sleek 4-step form 📝 — enter details, select plans 💼, choose add-ons 🧩, and confirm 📦. Fully responsive 📱💻 with validation alerts 🚨 and smooth step transitions 🎯.',
+    url: '/apps/multi-step-form'
   }
 ]
 
