@@ -6,6 +6,12 @@ interface State {
   personalInfo: PersonalInfoType
   finished: boolean
   currentStepSubmitFn: (() => void) | null
+  billingCycle: 'monthly' | 'yearly'
+  plan: {
+    id: 'arcadeXQakh7' | 'advancedhxzdy3' | 'prowDXoNs'
+    name: string
+    price: number
+  } | null
 }
 
 interface Actions {
@@ -14,12 +20,14 @@ interface Actions {
   updatePersonalInfo: (personalInfo: PersonalInfoType) => void
   setCurrentStepSubmitFn: (fn: (() => void) | null) => void
   goToPreviousStep: () => void
+  toggleBillingCycle: () => void
+  setPlan: (plan: State['plan']) => void
 }
 
 type Store = State & Actions
 
 export const useMultiStepFormStore = create<Store>((set, get) => ({
-  currentStep: 1,
+  currentStep: 2,
   finished: false,
   personalInfo: {
     email: '',
@@ -27,6 +35,8 @@ export const useMultiStepFormStore = create<Store>((set, get) => ({
     phone: ''
   },
   currentStepSubmitFn: null,
+  billingCycle: 'monthly',
+  plan: null,
   goToNextStep: () => {
     const currStep = get().currentStep
     const nextStep = currStep + 1
@@ -45,5 +55,7 @@ export const useMultiStepFormStore = create<Store>((set, get) => ({
   },
   setCurrentStepSubmitFn: (fn: (() => void) | null) => {
     set({ currentStepSubmitFn: fn })
-  }
+  },
+  toggleBillingCycle: () => set({ billingCycle: get().billingCycle === 'monthly' ? 'yearly' : 'monthly' }),
+  setPlan: (plan: State['plan']) => set({ plan })
 }))

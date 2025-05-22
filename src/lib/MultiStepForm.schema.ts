@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 const phoneRegex = /^(?:\+[\d]{1,4}\s?\d{10}|0\d{10}|\d{10})$/
 
+// PERSONAL INFO SCHEMA
 export const PersonalInfoSchema = z.object({
   name: z.string().min(3, {
     message: 'Name must be at least 3 characters long'
@@ -25,3 +26,14 @@ export const PersonalInfoSchema = z.object({
 })
 
 export type PersonalInfoType = z.infer<typeof PersonalInfoSchema>
+
+// PLAN SCHEMA
+const planIds = ['arcadeXQakh7', 'advancedhxzdy3', 'prowDXoNs'] as const
+
+export const PlanSchema = z.object({
+  planId: z.enum(planIds, { message: 'Please select a plan' })
+})
+
+export type PlanType = z.infer<typeof PlanSchema>
+
+// ADD-ONS SCHEMA

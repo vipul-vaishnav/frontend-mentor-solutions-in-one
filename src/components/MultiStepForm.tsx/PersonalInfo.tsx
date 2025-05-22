@@ -25,7 +25,6 @@ const PersonalInfo: React.FC = () => {
   })
 
   const onSubmit = (data: PersonalInfoType) => {
-    console.log('onSubmit', data)
     updatePersonalInfo(data)
     goToNextStep()
   }

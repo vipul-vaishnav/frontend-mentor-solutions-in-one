@@ -36,7 +36,7 @@ const STEPS = [
 
 const MultiStepForm: React.FC = () => {
   const { currentStep, finished, setFinished, currentStepSubmitFn, goToPreviousStep } = useMultiStepFormStore((s) => {
-    console.log(s)
+    // console.log(s)
     return s
   })
 
@@ -71,8 +71,8 @@ const MultiStepForm: React.FC = () => {
         <section className="w-[calc(100%-48px)] max-w-xl bg-white rounded-lg shadow-lg absolute top-[56%] left-1/2 transform -translate-x-1/2 p-6">
           {!finished && (
             <div className="space-y-3 mb-4">
-              <h1 className="text-[#02295a] font-bold text-3xl">{currentStepData?.title}</h1>
-              <p className="text-[#9996ab] font-medium text-base">{currentStepData?.description}</p>
+              <h1 className="text-[#02295a] font-bold text-xl sm:text-3xl">{currentStepData?.title}</h1>
+              <p className="text-[#9996ab] font-medium text-sm sm:text-base">{currentStepData?.description}</p>
             </div>
           )}
 
