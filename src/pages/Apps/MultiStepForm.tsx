@@ -6,6 +6,7 @@ import PersonalInfo from '../../components/MultiStepForm.tsx/PersonalInfo'
 import ThankYou from '../../components/MultiStepForm.tsx/ThankYou'
 import SelectPlan from '../../components/MultiStepForm.tsx/SelectPlan'
 import PickAddOns from '../../components/MultiStepForm.tsx/PickAddOns'
+import FinishedScreen from '../../components/MultiStepForm.tsx/FinishedScreen'
 
 const STEPS = [
   {
@@ -46,6 +47,8 @@ const MultiStepForm: React.FC = () => {
     if (currentStepSubmitFn) {
       currentStepSubmitFn()
       setFinished()
+    } else {
+      console.log('No submit function defined for this step.')
     }
   }
 
@@ -80,7 +83,7 @@ const MultiStepForm: React.FC = () => {
             {currentStep === 1 && <PersonalInfo />}
             {currentStep === 2 && <SelectPlan />}
             {currentStep === 3 && <PickAddOns />}
-            {currentStep === 4 ? !finished ? <div>Step 4</div> : <ThankYou /> : null}
+            {currentStep === 4 ? !finished ? <FinishedScreen /> : <ThankYou /> : null}
           </div>
         </section>
       </div>
@@ -99,7 +102,9 @@ const MultiStepForm: React.FC = () => {
         )}
         <button
           onClick={handleNext}
-          className="text-white bg-[#02295a] hover:bg-[#02295a]/80 transition-all duration-200 px-4 py-2 rounded-md"
+          className={`text-white transition-all duration-200 px-4 py-2 rounded-md ${
+            currentStep === 4 ? 'bg-[#473dff] hover:bg-[#437dff]/80' : 'bg-[#02295a] hover:bg-[#02295a]/80'
+          }`}
         >
           {currentStep === 4 ? 'Confirm' : 'Next Step'}
         </button>

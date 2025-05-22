@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import GenericSwitch from '../shared/GenericSwitch'
 
 import { useMultiStepFormStore } from '../../stores/MultiStepFormStore'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { PlanSchema, type PlanType } from '../../lib/MultiStepForm.schema'
 
-const PLANS = [
+export const PLANS = [
   {
     id: 'arcadeXQakh7',
     name: 'Arcade',
@@ -45,10 +45,7 @@ const SelectPlan: React.FC = () => {
     plan: selectedPlan,
     setCurrentStepSubmitFn,
     goToNextStep
-  } = useMultiStepFormStore((s) => {
-    console.log(s)
-    return s
-  })
+  } = useMultiStepFormStore((s) => s)
 
   const isBillingCycleMonthly = billingCycle === 'monthly'
 
@@ -60,9 +57,8 @@ const SelectPlan: React.FC = () => {
     formState: { errors }
   } = useForm<PlanType>({
     resolver: zodResolver(PlanSchema),
-    mode: 'onChange',
     defaultValues: {
-      planId: selectedPlan ? selectedPlan.id : undefined
+      planId: selectedPlan ? selectedPlan : undefined
     }
   })
 
@@ -73,11 +69,7 @@ const SelectPlan: React.FC = () => {
     const plan = PLANS.find((plan) => plan.id === id)
 
     if (plan) {
-      setPlan({
-        id: plan.id,
-        name: plan.name,
-        price: plan.price[billingCycle]
-      })
+      setPlan(plan.id)
       goToNextStep()
     } else {
       setError('planId', {
@@ -99,7 +91,7 @@ const SelectPlan: React.FC = () => {
             htmlFor={plan.id}
             key={plan.id}
             className={`flex border p-2.5 py-3 rounded-lg gap-4 cursor-pointer items-start transition-all duration-200 ${
-              watchPlanId === plan.id ? 'bg-[#f0f5ff] border-[#473dff]' : 'border-[#d6d9e6]'
+              watchPlanId === plan.id ? 'bg-[#f0f5ff] border-[#473dff]' : 'border-[#d6d9e6] hover:border-[#473dff]'
             }`}
           >
             <div>
@@ -122,7 +114,7 @@ const SelectPlan: React.FC = () => {
                 )}
               </AnimatePresence>
             </div>
-            <input type="radio" id={plan.id} value={plan.id} {...register('planId')} hidden />
+            <input type="radio" id={plan.id} value={plan.id} {...register('planId')} className="sr-only" />
           </label>
         ))}
         {errors.planId && <p className="text-[#ed3548] mt-2 text-xs font-medium">{errors.planId.message}</p>}

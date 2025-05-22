@@ -37,3 +37,10 @@ export const PlanSchema = z.object({
 export type PlanType = z.infer<typeof PlanSchema>
 
 // ADD-ONS SCHEMA
+const ADDON_IDS = ['onlineServiceXQakh7', 'largerStoragehxzdy3', 'customizableProfilewDXoNs'] as const
+
+export const AddOnsSchema = z.object({
+  addonIds: z.array(z.enum(ADDON_IDS)).min(0)
+})
+
+export type AddOnsType = z.infer<typeof AddOnsSchema>
