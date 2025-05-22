@@ -8,7 +8,8 @@ import { PersonalInfoSchema, type PersonalInfoType } from '../../lib/MultiStepFo
 import { useMultiStepFormStore } from '../../stores/MultiStepFormStore'
 
 const PersonalInfo: React.FC = () => {
-  const { personalInfo, updatePersonalInfo, setCurrentStepSubmitFn, goToNextStep } = useMultiStepFormStore((s) => s)
+  const { personalInfo, updatePersonalInfo, setCurrentStepSubmitFn, goToNextStep, setLastCompletedStep } =
+    useMultiStepFormStore((s) => s)
 
   const {
     formState: { errors },
@@ -27,6 +28,7 @@ const PersonalInfo: React.FC = () => {
   const onSubmit = (data: PersonalInfoType) => {
     updatePersonalInfo(data)
     goToNextStep()
+    setLastCompletedStep()
   }
 
   useEffect(() => {

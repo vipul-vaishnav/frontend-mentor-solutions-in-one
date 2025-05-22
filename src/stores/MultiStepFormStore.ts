@@ -3,6 +3,7 @@ import type { PersonalInfoType } from '../lib/MultiStepForm.schema'
 
 interface State {
   currentStep: number
+  lastCompletedStep: number | null
   personalInfo: PersonalInfoType
   finished: boolean
   currentStepSubmitFn: (() => void) | null
@@ -21,6 +22,7 @@ interface Actions {
   setPlan: (plan: State['plan']) => void
   setAddOns: (addOns: State['addOns']) => void
   setStep: (step: number) => void
+  setLastCompletedStep: () => void
 }
 
 type Store = State & Actions
@@ -33,6 +35,7 @@ export const useMultiStepFormStore = create<Store>((set, get) => ({
     name: '',
     phone: ''
   },
+  lastCompletedStep: null,
   currentStepSubmitFn: null,
   billingCycle: 'monthly',
   plan: null,
@@ -59,5 +62,6 @@ export const useMultiStepFormStore = create<Store>((set, get) => ({
   toggleBillingCycle: () => set({ billingCycle: get().billingCycle === 'monthly' ? 'yearly' : 'monthly' }),
   setPlan: (plan: State['plan']) => set({ plan }),
   setAddOns: (addOns: State['addOns']) => set({ addOns }),
-  setStep: (step: number) => set({ currentStep: step })
+  setStep: (step: number) => set({ currentStep: step }),
+  setLastCompletedStep: () => set({ lastCompletedStep: (get().lastCompletedStep ?? 0) + 1 })
 }))

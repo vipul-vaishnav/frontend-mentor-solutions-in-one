@@ -5,7 +5,9 @@ import { PLANS } from './SelectPlan'
 import { ADDONS } from './PickAddOns'
 
 const FinishedScreen: React.FC = () => {
-  const { setCurrentStepSubmitFn, billingCycle, plan, addOns } = useMultiStepFormStore((s) => s)
+  const { setCurrentStepSubmitFn, billingCycle, plan, addOns, setLastCompletedStep, setStep } = useMultiStepFormStore(
+    (s) => s
+  )
 
   const isBillingCycleMonthly = billingCycle === 'monthly'
   const selectedAddons = ADDONS.filter((addon) => addOns.includes(addon.id))
@@ -16,6 +18,7 @@ const FinishedScreen: React.FC = () => {
 
   const onSubmit = () => {
     console.log('Form submitted!')
+    setLastCompletedStep()
   }
 
   useEffect(() => {
@@ -30,7 +33,12 @@ const FinishedScreen: React.FC = () => {
           {selectedPlan?.name} ({billingCycle[0].toUpperCase() + billingCycle.slice(1)})
         </h6>
         <p className="flex items-center justify-between">
-          <button className="text-[#9699ab] transition-all duration-200 underline hover:text-[#473dff]">Change</button>
+          <button
+            onClick={() => setStep(2)}
+            className="text-[#9699ab] transition-all duration-200 underline hover:text-[#473dff]"
+          >
+            Change
+          </button>
           <span className="font-bold text-[#02295a]">
             ${selectedPlan?.price[billingCycle]}/{isBillingCycleMonthly ? 'mo' : 'yr'}
           </span>

@@ -41,7 +41,8 @@ const PickAddOns: React.FC = () => {
     addOns: selectedAddOns,
     setAddOns,
     goToNextStep,
-    setCurrentStepSubmitFn
+    setCurrentStepSubmitFn,
+    setLastCompletedStep
   } = useMultiStepFormStore((s) => s)
 
   const { register, handleSubmit, watch } = useForm<AddOnsType>({
@@ -58,6 +59,7 @@ const PickAddOns: React.FC = () => {
     const selectedAddOns = ADDONS.filter((addon) => data.addonIds?.includes(addon.id)).map((addon) => addon.id)
     setAddOns(selectedAddOns)
     goToNextStep()
+    setLastCompletedStep()
   }
 
   useEffect(() => {

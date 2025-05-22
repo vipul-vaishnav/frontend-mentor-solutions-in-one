@@ -36,9 +36,8 @@ const STEPS = [
 ] as const
 
 const MultiStepForm: React.FC = () => {
-  const { currentStep, finished, setFinished, currentStepSubmitFn, goToPreviousStep, setStep } = useMultiStepFormStore(
-    (s) => s
-  )
+  const { currentStep, finished, setFinished, currentStepSubmitFn, goToPreviousStep, setStep, lastCompletedStep } =
+    useMultiStepFormStore((s) => s)
 
   const currentStepData = STEPS.find((step) => step.step === currentStep)
 
@@ -59,11 +58,13 @@ const MultiStepForm: React.FC = () => {
             <li key={step.id}>
               <button
                 onClick={() => {
-                  if (step.step <= currentStep) {
+                  if (step.step <= (lastCompletedStep ?? 0) + 1) {
                     setStep(step.step)
                   }
                 }}
-                className={`w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border-2 font-bold text-lg ${
+                className={`w-10 h-10 ${
+                  step.step <= (lastCompletedStep ?? 0) + 1 ? 'cursor-pointer' : '!cursor-not-allowed'
+                } rounded-full flex items-center justify-center border-2 font-bold text-lg ${
                   step.step === currentStep
                     ? 'bg-[#bfe2fd] border-[#bfe2fd] text-[#02295a]'
                     : 'bg-transparent border-white text-white'

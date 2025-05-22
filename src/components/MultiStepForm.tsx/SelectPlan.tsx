@@ -44,7 +44,8 @@ const SelectPlan: React.FC = () => {
     setPlan,
     plan: selectedPlan,
     setCurrentStepSubmitFn,
-    goToNextStep
+    goToNextStep,
+    setLastCompletedStep
   } = useMultiStepFormStore((s) => s)
 
   const isBillingCycleMonthly = billingCycle === 'monthly'
@@ -71,6 +72,7 @@ const SelectPlan: React.FC = () => {
     if (plan) {
       setPlan(plan.id)
       goToNextStep()
+      setLastCompletedStep()
     } else {
       setError('planId', {
         message: 'Please select a plan'
