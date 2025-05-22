@@ -36,10 +36,9 @@ const STEPS = [
 ] as const
 
 const MultiStepForm: React.FC = () => {
-  const { currentStep, finished, setFinished, currentStepSubmitFn, goToPreviousStep } = useMultiStepFormStore((s) => {
-    // console.log(s)
-    return s
-  })
+  const { currentStep, finished, setFinished, currentStepSubmitFn, goToPreviousStep, setStep } = useMultiStepFormStore(
+    (s) => s
+  )
 
   const currentStepData = STEPS.find((step) => step.step === currentStep)
 
@@ -59,7 +58,11 @@ const MultiStepForm: React.FC = () => {
           {STEPS.map((step) => (
             <li key={step.id}>
               <button
-                onClick={() => {}}
+                onClick={() => {
+                  if (step.step <= currentStep) {
+                    setStep(step.step)
+                  }
+                }}
                 className={`w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border-2 font-bold text-lg ${
                   step.step === currentStep
                     ? 'bg-[#bfe2fd] border-[#bfe2fd] text-[#02295a]'
@@ -87,28 +90,30 @@ const MultiStepForm: React.FC = () => {
           </div>
         </section>
       </div>
-      <div
-        className={`w-full fixed bottom-0 max-w-screen bg-white p-6 flex items-center ${
-          currentStep > 1 ? 'justify-between' : 'justify-end'
-        } h-auto`}
-      >
-        {currentStep > 1 && (
-          <button
-            onClick={goToPreviousStep}
-            className="text-[#9699ab] hover:text-[#9699ab]/70 transition-all duration-200"
-          >
-            Go Back
-          </button>
-        )}
-        <button
-          onClick={handleNext}
-          className={`text-white transition-all duration-200 px-4 py-2 rounded-md ${
-            currentStep === 4 ? 'bg-[#473dff] hover:bg-[#437dff]/80' : 'bg-[#02295a] hover:bg-[#02295a]/80'
-          }`}
+      {!finished && (
+        <div
+          className={`w-full fixed bottom-0 max-w-screen bg-white p-6 flex items-center ${
+            currentStep > 1 ? 'justify-between' : 'justify-end'
+          } h-auto`}
         >
-          {currentStep === 4 ? 'Confirm' : 'Next Step'}
-        </button>
-      </div>
+          {currentStep > 1 && (
+            <button
+              onClick={goToPreviousStep}
+              className="text-[#9699ab] hover:text-[#9699ab]/70 transition-all duration-200"
+            >
+              Go Back
+            </button>
+          )}
+          <button
+            onClick={handleNext}
+            className={`text-white transition-all duration-200 px-4 py-2 rounded-md ${
+              currentStep === 4 ? 'bg-[#473dff] hover:bg-[#437dff]/80' : 'bg-[#02295a] hover:bg-[#02295a]/80'
+            }`}
+          >
+            {currentStep === 4 ? 'Confirm' : 'Next Step'}
+          </button>
+        </div>
+      )}
     </main>
   )
 }

@@ -20,12 +20,13 @@ interface Actions {
   toggleBillingCycle: () => void
   setPlan: (plan: State['plan']) => void
   setAddOns: (addOns: State['addOns']) => void
+  setStep: (step: number) => void
 }
 
 type Store = State & Actions
 
 export const useMultiStepFormStore = create<Store>((set, get) => ({
-  currentStep: 4,
+  currentStep: 1,
   finished: false,
   personalInfo: {
     email: '',
@@ -57,5 +58,6 @@ export const useMultiStepFormStore = create<Store>((set, get) => ({
   },
   toggleBillingCycle: () => set({ billingCycle: get().billingCycle === 'monthly' ? 'yearly' : 'monthly' }),
   setPlan: (plan: State['plan']) => set({ plan }),
-  setAddOns: (addOns: State['addOns']) => set({ addOns })
+  setAddOns: (addOns: State['addOns']) => set({ addOns }),
+  setStep: (step: number) => set({ currentStep: step })
 }))
