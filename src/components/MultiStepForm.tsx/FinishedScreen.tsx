@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 
 import { useMultiStepFormStore } from '../../stores/MultiStepFormStore'
-import { PLANS } from './SelectPlan'
-import { ADDONS } from './PickAddOns'
+import { ADDONS } from '../../data/multi-step-form/addons'
+import { PLANS } from '../../data/multi-step-form/plans'
 
 const FinishedScreen: React.FC = () => {
   const { setCurrentStepSubmitFn, billingCycle, plan, addOns, setLastCompletedStep, setStep } = useMultiStepFormStore(

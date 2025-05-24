@@ -7,33 +7,7 @@ import GenericSwitch from '../shared/GenericSwitch'
 
 import { useMultiStepFormStore } from '../../stores/MultiStepFormStore'
 import { PlanSchema, type PlanType } from '../../lib/MultiStepForm.schema'
-
-export const PLANS = [
-  {
-    id: 'arcadeXQakh7',
-    name: 'Arcade',
-    price: {
-      monthly: 9,
-      yearly: 90
-    }
-  },
-  {
-    id: 'advancedhxzdy3',
-    name: 'Advanced',
-    price: {
-      monthly: 12,
-      yearly: 120
-    }
-  },
-  {
-    id: 'prowDXoNs',
-    name: 'Pro',
-    price: {
-      monthly: 15,
-      yearly: 150
-    }
-  }
-] as const
+import { PLANS } from '../../data/multi-step-form/plans'
 
 const FREE_MONTHS = 2
 
@@ -86,7 +60,7 @@ const SelectPlan: React.FC = () => {
   }, [])
 
   return (
-    <section>
+    <React.Fragment>
       <form className="space-y-3">
         {PLANS.map((plan) => (
           <label
@@ -146,7 +120,7 @@ const SelectPlan: React.FC = () => {
           switchClasses="bg-[#02295a] border-[#02295a]"
         />
       </div>
-    </section>
+    </React.Fragment>
   )
 }
 export default SelectPlan
