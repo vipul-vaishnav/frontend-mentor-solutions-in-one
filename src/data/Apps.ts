@@ -26,6 +26,13 @@ const APPS = [
     description:
       'Guide users through a sleek 4-step form 📝 — enter details, select plans 💼, choose add-ons 🧩, and confirm 📦. Fully responsive 📱💻 with validation alerts 🚨 and smooth step transitions 🎯.',
     url: '/apps/multi-step-form'
+  },
+  {
+    image_url: '/thumbnails/product-list-with-cart.jpg',
+    title: 'Product list with cart',
+    description:
+      'Add or remove products 🛒, update item quantities 🔢, and confirm your order with a modal ✅. Start new order anytime 🔄. Fully keyboard-accessible ⌨️, responsive 📱💻, with clear hover and focus states ✨.',
+    url: '/apps/product-list-with-cart'
   }
 ]
 

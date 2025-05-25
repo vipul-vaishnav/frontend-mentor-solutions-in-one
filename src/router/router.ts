@@ -13,6 +13,7 @@ import BrowserExtensionManager from '../pages/Apps/BrowserExtensionManager'
 import QuizHome from '../pages/Apps/frontend-quiz-app/QuizHome'
 import QuizQuestions from '../pages/Apps/frontend-quiz-app/QuizQuestions'
 import MultiStepForm from '../pages/Apps/MultiStepForm'
+import ProductListWithCart from '../pages/Apps/ProductListWithCart'
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: '/apps/multi-step-form',
     Component: MultiStepForm
+  },
+  {
+    path: '/apps/product-list-with-cart',
+    Component: ProductListWithCart
   }
 ])
 
