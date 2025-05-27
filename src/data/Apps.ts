@@ -33,6 +33,13 @@ const APPS = [
     description:
       'Add or remove products 🛒, update item quantities 🔢, and confirm your order with a modal ✅. Start new order anytime 🔄. Fully keyboard-accessible ⌨️, responsive 📱💻, with clear hover and focus states ✨.',
     url: '/apps/product-list-with-cart'
+  },
+  {
+    image_url: '/thumbnails/pomodoro-app-thumbnail.webp',
+    title: 'Pomodoro App',
+    description:
+      'Boost focus with customizable Pomodoro ⏱️, short ☕ & long 🌴 breaks. Personalize timer lengths ⚙️, track progress via a live circular bar 🟢, and tailor the look with theme & font options 🎨.',
+    url: '/apps/pomodoro-app'
   }
 ]
 

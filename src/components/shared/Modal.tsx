@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDeviceType } from '../../hooks/useDeviceType'
+import { twMerge } from 'tailwind-merge'
 
 type ModalProps = {
   open: boolean
@@ -8,6 +9,7 @@ type ModalProps = {
   children: React.ReactNode
   closeOnBackdropClick?: boolean
   showCloseButton?: boolean
+  modalClasses?: string
 }
 
 const backdropVariants = {
@@ -32,7 +34,8 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   children,
   closeOnBackdropClick = false,
-  showCloseButton = false
+  showCloseButton = false,
+  modalClasses = ''
 }) => {
   const device = useDeviceType()
   const isMobile = device === 'mobile'
@@ -53,7 +56,10 @@ const Modal: React.FC<ModalProps> = ({
           }}
         >
           <motion.div
-            className="relative z-60 w-full sm:max-w-lg sm:mx-4 rounded-t-2xl sm:rounded-2xl bg-white p-6 shadow-lg"
+            className={twMerge(
+              `relative z-60 w-full sm:max-w-lg sm:mx-4 rounded-t-2xl sm:rounded-2xl bg-white p-6 shadow-lg`,
+              modalClasses
+            )}
             variants={modalVariants}
             initial="hidden"
             animate="visible"

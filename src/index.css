@@ -2,6 +2,14 @@
 
 @custom-variant dark (&:where(.dark, .dark *)); /* Custom selector */
 
+@theme {
+  --color-pomored: #f87070;
+  --color-pomopurple: #d881f8;
+  --color-pomoteal: #70f3f8;
+
+  --breakpoint-xs: 24rem;
+}
+
 button {
   cursor: pointer;
 }
