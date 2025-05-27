@@ -46,7 +46,7 @@ const Modal: React.FC<ModalProps> = ({
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50"
+          className="fixed inset-0 z-[999999] flex items-end sm:items-center justify-center bg-black/50"
           variants={backdropVariants}
           initial="hidden"
           animate="visible"

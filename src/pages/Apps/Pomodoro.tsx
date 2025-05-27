@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { twMerge } from 'tailwind-merge'
 
@@ -13,17 +13,19 @@ const Pomodoro: React.FC = () => {
   const [theme, setTheme] = useState<Theme>('red')
   const [timers, setTimers] = useState({
     pomodoro: TIMERS[0].MINUTES as number,
-    shortbreak: TIMERS[1].MINUTES as number,
-    longbreak: TIMERS[2].MINUTES as number
+    'short break': TIMERS[1].MINUTES as number,
+    'long break': TIMERS[2].MINUTES as number
   })
   const [mode, setMode] = useState<(typeof TIMERS)[number]['NAME']>('pomodoro')
   const [open, setOpen] = useState(false)
   const [settings, setSettings] = useState({
     pomodoro: timers.pomodoro,
-    shortbreak: timers.shortbreak,
-    longbreak: timers.longbreak,
+    'short break': timers['short break'],
+    'long break': timers['long break'],
     color: theme
   })
+  const [timerStatus, setTimerStatus] = useState<'running' | 'paused' | 'finished'>('paused')
+  const [showToast, setShowToast] = useState(false)
 
   const changeTheme = (newTheme: Theme) => setTheme(newTheme)
   const changeMode = (newMode: (typeof TIMERS)[number]['NAME']) => setMode(newMode)
@@ -50,17 +52,38 @@ const Pomodoro: React.FC = () => {
     setOpen(false)
   }
   const onApplySettings = () => {
+    if (timerStatus === 'running') return
+
     changeTheme(settings.color)
     setTimers({
       pomodoro: settings.pomodoro,
-      shortbreak: settings.shortbreak,
-      longbreak: settings.longbreak
+      'short break': settings['short break'],
+      'long break': settings['long break']
     })
     handleClose()
   }
 
+  useEffect(() => {
+    if (showToast) {
+      setTimeout(() => setShowToast(false), 3000)
+    }
+  }, [showToast])
+
   return (
     <React.Fragment>
+      <AnimatePresence mode="wait">
+        {showToast && (
+          <motion.div
+            className="bg-white max-w-md w-full mx-auto text-[#1e213f] font-bold p-6 text-lg drop-shadow-2xl shadow-white rounded-lg text-center fixed bottom-1/4 translate-y-1/2 left-1/2 -translate-x-1/2 z-[99999]"
+            initial={{ opacity: 0, scale: 0.25, y: 100 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.25, y: 100 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
+            <p>A timer is running. Pause it to change mode</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <Modal open={open} onClose={handleClose} closeOnBackdropClick>
         <div className="p-4 w-full">
           <div className="flex items-center justify-between pb-8 border-b border-[#dbdfed]">
@@ -83,12 +106,14 @@ const Pomodoro: React.FC = () => {
                     <p className="font-semibold ">{settings.pomodoro}</p>
                     <div className="flex flex-col items-center h-full justify-between">
                       <button
+                        disabled={timerStatus === 'running'}
                         onClick={() => setSettings((prev) => ({ ...prev, pomodoro: Math.min(prev.pomodoro + 1, 60) }))}
                         className="hover:scale-110 transition-all duration-300 active:scale-95 hover:opacity-100 opacity-50 active:opacity-50"
                       >
                         <img src={'/pomodoro/icon-arrow-up.svg'} alt="increase time" />
                       </button>
                       <button
+                        disabled={timerStatus === 'running'}
                         onClick={() => setSettings((prev) => ({ ...prev, pomodoro: Math.max(prev.pomodoro - 1, 1) }))}
                         className="hover:scale-110 transition-all duration-300 active:scale-95 hover:opacity-100 opacity-50 active:opacity-50"
                       >
@@ -100,19 +125,21 @@ const Pomodoro: React.FC = () => {
                 <div>
                   <p className="text-xs font-semibold mb-3 text-gray-500">short break</p>
                   <div className="w-full h-14 bg-[#eff1fa] rounded-xl flex items-center justify-between px-4 py-4">
-                    <p className="font-semibold ">{settings.shortbreak}</p>
+                    <p className="font-semibold ">{settings['short break']}</p>
                     <div className="flex flex-col items-center h-full justify-between">
                       <button
+                        disabled={timerStatus === 'running'}
                         onClick={() =>
-                          setSettings((prev) => ({ ...prev, shortbreak: Math.min(prev.shortbreak + 1, 60) }))
+                          setSettings((prev) => ({ ...prev, 'short break': Math.min(prev['short break'] + 1, 60) }))
                         }
                         className="hover:scale-110 transition-all duration-300 active:scale-95 hover:opacity-100 opacity-50 active:opacity-50"
                       >
                         <img src={'/pomodoro/icon-arrow-up.svg'} alt="increase time" />
                       </button>
                       <button
+                        disabled={timerStatus === 'running'}
                         onClick={() =>
-                          setSettings((prev) => ({ ...prev, shortbreak: Math.max(prev.shortbreak - 1, 1) }))
+                          setSettings((prev) => ({ ...prev, 'short break': Math.max(prev['short break'] - 1, 1) }))
                         }
                         className="hover:scale-110 transition-all duration-300 active:scale-95 hover:opacity-100 opacity-50 active:opacity-50"
                       >
@@ -124,18 +151,22 @@ const Pomodoro: React.FC = () => {
                 <div>
                   <p className="text-xs font-semibold mb-3 text-gray-500">long break</p>
                   <div className="w-full h-14 bg-[#eff1fa] rounded-xl flex items-center justify-between px-4 py-4">
-                    <p className="font-semibold ">{settings.longbreak}</p>
+                    <p className="font-semibold ">{settings['long break']}</p>
                     <div className="flex flex-col items-center h-full justify-between">
                       <button
+                        disabled={timerStatus === 'running'}
                         onClick={() =>
-                          setSettings((prev) => ({ ...prev, longbreak: Math.min(prev.longbreak + 1, 60) }))
+                          setSettings((prev) => ({ ...prev, 'long break': Math.min(prev['long break'] + 1, 60) }))
                         }
                         className="hover:scale-110 transition-all duration-300 active:scale-95 hover:opacity-100 opacity-50 active:opacity-50"
                       >
                         <img src={'/pomodoro/icon-arrow-up.svg'} alt="increase time" />
                       </button>
                       <button
-                        onClick={() => setSettings((prev) => ({ ...prev, longbreak: Math.max(prev.longbreak - 1, 1) }))}
+                        disabled={timerStatus === 'running'}
+                        onClick={() =>
+                          setSettings((prev) => ({ ...prev, 'long break': Math.max(prev['long break'] - 1, 1) }))
+                        }
                         className="hover:scale-110 transition-all duration-300 active:scale-95 hover:opacity-100 opacity-50 active:opacity-50"
                       >
                         <img src={'/pomodoro/icon-arrow-down.svg'} alt="decrease time" />
@@ -145,6 +176,11 @@ const Pomodoro: React.FC = () => {
                 </div>
               </div>
             </div>
+            {timerStatus === 'running' && (
+              <p className="text-red-500 font-medium text-xs">
+                A {mode} timer is running. You cannot change its value.
+              </p>
+            )}
             <div className="flex items-center justify-between">
               <p className="font-semibold uppercase tracking-widest">Color</p>
 
@@ -212,7 +248,13 @@ const Pomodoro: React.FC = () => {
 
             return (
               <button
-                onClick={() => changeMode(timer.NAME)}
+                onClick={() => {
+                  if (timerStatus === 'running') {
+                    setShowToast(true)
+                  } else {
+                    changeMode(timer.NAME)
+                  }
+                }}
                 key={idx}
                 className={`relative w-full text-center transition-all duration-300 rounded-full py-3.5 sm:px-4 px-3 font-semibold text-xs sm:text-sm z-10 ${
                   isActive ? 'text-[#161932]' : 'text-[#eff1fa]/50 hover:text-[#d7e0ff]'
@@ -232,7 +274,7 @@ const Pomodoro: React.FC = () => {
         </div>
 
         <div className="mx-auto max-w-full w-full">
-          <Timer theme={theme} />
+          <Timer theme={theme} setTimerStatus={setTimerStatus} timerStatus={timerStatus} mode={mode} timers={timers} />
         </div>
 
         <button onClick={() => setOpen(true)} className="block mx-auto mt-12">
