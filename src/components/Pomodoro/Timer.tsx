@@ -111,6 +111,12 @@ const Timer: React.FC<TimerProps> = (props) => {
   const [timerMinutes, setTimerMinutes] = useState(timers[mode])
   const [timerSeconds, setTimerSeconds] = useState(0)
 
+  const handleRestart = () => {
+    setTimerMinutes(timers[mode])
+    setTimerSeconds(0)
+    setTimerStatus('running')
+  }
+
   useEffect(() => {
     setTimerMinutes(timers[mode])
     setTimerSeconds(0)
@@ -183,7 +189,7 @@ const Timer: React.FC<TimerProps> = (props) => {
               } else if (timerStatus === 'paused') {
                 setTimerStatus('running')
               } else {
-                console.log('Re Starting')
+                handleRestart()
               }
             }}
             className={twMerge(

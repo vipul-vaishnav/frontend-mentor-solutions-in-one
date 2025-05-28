@@ -1,0 +1,70 @@
+.timerContainer {
+  width: 480px;
+  height: 480px;
+  background-color: #343a40;
+  border-radius: 50%;
+  box-shadow: -50px -50px 100px 0 #1c1c1c, 50px 50px 100px 0 #131518;
+  display: grid;
+  place-items: center;
+}
+
+.timer {
+  width: 420px;
+  height: 420px;
+  background-color: #212529;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.progress {
+  --progress: 100;
+
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  position: absolute;
+  background-image: conic-gradient(#ae3ec9 calc(var(--progress) * 1%), transparent 0%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateY(180deg);
+  transition: --progress 300ms linear;
+
+  &::after {
+    content: '';
+    width: 380px;
+    height: 380px;
+    background-color: #212529;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.timerMinutesAndSeconds {
+  font-size: 124px;
+  font-weight: 700;
+  position: relative;
+  z-index: 50;
+}
+
+.timerControls {
+  position: relative;
+  z-index: 50;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  font-size: 36px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 6px;
+  transition: all;
+  transition-duration: 300ms;
+
+  &:hover {
+    color: #ae3ec9;
+  }
+}

@@ -6,6 +6,7 @@ import { TIMERS } from '../../lib/pomodoro.constants'
 
 import Modal from '../../components/shared/Modal'
 import Timer from '../../components/Pomodoro/Timer'
+// import TestTimer from '../../components/TestTimer'
 
 type Theme = 'red' | 'purple' | 'teal'
 
@@ -52,7 +53,10 @@ const Pomodoro: React.FC = () => {
     setOpen(false)
   }
   const onApplySettings = () => {
-    if (timerStatus === 'running') return
+    if (timerStatus === 'running') {
+      changeTheme(settings.color)
+      return handleClose()
+    }
 
     changeTheme(settings.color)
     setTimers({
@@ -281,6 +285,9 @@ const Pomodoro: React.FC = () => {
           <img src={'/pomodoro/icon-settings.svg'} alt="settings icon" className="w-6 h-6" />
         </button>
       </main>
+      {/* <div className="bg-[#212529] text-[#e9ecef] grid place-items-center w-full py-6 px-5 min-h-dvh">
+        <TestTimer />
+      </div> */}
     </React.Fragment>
   )
 }
